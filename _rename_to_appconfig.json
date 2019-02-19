@@ -1,0 +1,28 @@
+{
+    "thingSpeak": {
+        "dataChannel": {
+            "id": "",
+            "read_key": "",
+            "write_key": ""
+        },
+        "controlChannel": {
+            "id": "",
+            "read_key": "",
+            "write_key": ""
+        },
+        "alertChannel": {
+            "id": "",
+            "read_key": "",
+            "write_key": ""
+        },
+        "writeUrl": "https://api.thingspeak.com/update?api_key={write_key}&field1={1}&field2={2}&field3={3}&field4={4}&field5={5}",
+        "readUrl": "https://api.thingspeak.com/channels/{id}/feeds.json?api_key={read_key}&results=1"
+    },
+    "setInterval": 20000,
+    "getInterval": 15000,
+    "degreeSymbol": {
+        "fahrenheit": "\u2109",
+        "celsius": "\u2103",
+        "agnostic": "\u00B0"
+    }
+}
