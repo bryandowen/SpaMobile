@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     TextInput,
 } from 'react-native';
+import Toast from 'react-native-simple-toast';
 import SynchingSwitch from './SynchingSwitch';
 import styles from '../styles';
 
@@ -15,7 +16,19 @@ const SwitchPanel = (props) => {
         <View style={styles.controlComplex}> 
             <TouchableOpacity>
                 <View style={styles.targetTemp}>
-                    <Text style={styles.baseText}>Target Temperature: {props.desired.temperature}</Text>
+                    <Text style={styles.baseText}>Target temperature: </Text>
+                    <TextInput
+                        style={styles.tempControlInput}
+                        style={{height: 30, width: 50, textAlign: 'center', color: 'white', backgroundColor: 'black', fontSize: 20}}
+                        maxLength={5}
+                        selectTextOnFocus={true}
+                        placeholder='102.0'
+                        placeholderTextColor='#999999'
+                        //autoFocus={true}
+                        keyboardType={'numeric'}
+                        defaultValue={props.desired.temperature}
+                        onSubmitEditing={(event) => props.tempSubmitted(event)}
+                    />
                 </View>
             </TouchableOpacity>
             <View style={styles.switchesComplex}>
@@ -30,7 +43,7 @@ const SwitchPanel = (props) => {
                     </View>
                     <View style={styles.switchRow}>
                         <SynchingSwitch name='Clean Cycle' tag='cleancycle' isOn={props.desired.cleanCycle} isSynched={props.desired.cleanCycle === props.actual.cleanCycle}/>
-                        <SynchingSwitch disabled={true} name='Heater' tag='heater' isOn={props.actual.heater} isSynched={true}/>
+                        <SynchingSwitch isDisabled={true} name='Heater' tag='heater' isOn={props.actual.heater} isSynched={true}/>
                     </View>
                 </View>
             </View>
@@ -42,14 +55,26 @@ const mapStateToProps = (state) => {
     return {
         desired: state.desired,
         actual: state.actual,
-        //props: state,
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // dispatch handlers
-    }
+        tempSubmitted: (event) => {
+            console.log(event);
+            if (isNaN(event.nativeEvent.text)) {
+                Toast.show('Target temperature must be numeric');
+            } else {
+                let newTemp = parseFloat(event.nativeEvent.text).toFixed(1);
+                console.log(newTemp);
+                if (newTemp >= 32 && newTemp <= 104) {
+                    dispatch({type: 'DESIRED_TEMP_CHANGED', temp: event.nativeEvent.text})
+                } else {
+                    Toast.show('Target temperature must be between 32 and 104', Toast.LONG);
+                }
+            }
+        },
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwitchPanel);

@@ -10,8 +10,8 @@ export default StyleSheet.create ({
     },
     temperature: {
         fontSize: 100,
-        fontFamily: 'sans-serif',
-        color: '#ffeecc',
+        fontFamily: 'serif',
+        color: 'powderblue',
     },
     asOf: {
         fontSize: 10,
@@ -57,7 +57,7 @@ export default StyleSheet.create ({
     baseText:{
         color: '#ffeecc',
         fontFamily: 'sans-serif',
-        fontSize:20,
+        fontSize: 20,
     },
     targetTemp:{
         flexDirection:'row'

@@ -16,18 +16,26 @@ import PropTypes from 'prop-types';
 //    (green track color = synched; some sort of yellow or amber = unsynched)
 
 const SynchingSwitch = (props) => {
-    let switchContent = props.disabled ? (
-        <View style={styles.switchField}>
-            <Text style={styles.baseText}>{props.name}</Text>
-            <Switch value={props.isOn} disabled={props.disabled} trackColor={props.isSynched ? 'green' : 'amber'} onValueChange={(value) => props.switchChanged(props.tag, value)}/>
-        </View>
-    ) : (
+    console.log('isOn, isSynched', props.isOn, props.isSynched);
+    return (
         <TouchableOpacity style={styles.switchField}>
             <Text style={styles.baseText}>{props.name}</Text>
-            <Switch value={props.isOn} disabled={props.disabled} trackColor={props.isSynched ? 'green' : 'amber'} onValueChange={(value) => props.switchChanged(props.tag, value)}/>
+            <Switch
+                value={props.isOn}
+                disabled={props.isDisabled}
+                thumbColor={props.isSynched ? 'darkgray' : 'yellow'}
+                onValueChange={(value) => props.switchChanged(props.tag, value)}
+            />
         </TouchableOpacity>
-    )
-    return switchContent;
+    );
+    // let switchContent = props.isDisabled ? (
+    //     <View style={styles.switchField}>
+    //         <Text style={styles.baseText}>{props.name}</Text>
+    //         <Switch value={props.isOn} disabled={props.isDisabled} trackColor={props.isSynched ? 'green' : 'amber'} onValueChange={(value) => props.switchChanged(props.tag, value)}/>
+    //     </View>
+    // ) : (
+    // )
+    // return switchContent;
 }
 
 SynchingSwitch.propTypes = {
@@ -48,7 +56,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         switchChanged: (tag, value) => {
-            dispatch({type: 'DESIRED_CHANGED', tag, value});
+            dispatch({type: 'DESIRED_SWITCH_CHANGED', tag, value});
         }
     }
 };
